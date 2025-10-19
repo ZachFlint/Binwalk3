@@ -1,5 +1,19 @@
-"""Setup script for binwalk3 - skeleton, will be completed in Phase 7."""
+"""Setup script for binwalk3 compatibility package."""
+
+from pathlib import Path
 
 from setuptools import setup
 
-setup()
+# Read long description from README
+readme_path = Path(__file__).parent / "README.md"
+long_description = readme_path.read_text(encoding="utf-8")
+
+setup(
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    package_data={
+        "": ["binwalk_bin/*.exe"],
+        "binwalk": ["py.typed"],
+    },
+    include_package_data=True,
+)
