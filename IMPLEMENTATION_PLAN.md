@@ -166,35 +166,37 @@
 
 ## 📋 PHASE 2: BINWALK V3 BINARY COMPILATION (2-3 hours)
 
+**NOTE**: Binary compilation encountered build environment limitations (missing GCC for dependencies). See `binwalk_bin/BUILD_NOTE.md` for details. Implementation continues with code that gracefully handles missing binary. Binary can be added later.
+
 ### 2.1 Rust Toolchain Verification
 
-- [ ] Open PowerShell or Command Prompt
-- [ ] Check Rust version: `rustc --version` (should be 1.70+)
-- [ ] Check Cargo version: `cargo --version`
-- [ ] If not installed, download from https://rustup.rs/ and install
-- [ ] Update Rust toolchain: `rustup update stable`
-- [ ] Add Windows MSVC target: `rustup target add x86_64-pc-windows-msvc`
-- [ ] Verify MSVC is installed (Visual Studio Build Tools or Visual Studio)
-- [ ] List installed targets: `rustup target list --installed`
-- [ ] Confirm `x86_64-pc-windows-msvc` is in the list
+- [x] Open PowerShell or Command Prompt
+- [x] Check Rust version: `rustc --version` (should be 1.70+)
+- [x] Check Cargo version: `cargo --version`
+- [x] If not installed, download from https://rustup.rs/ and install
+- [x] Update Rust toolchain: `rustup update stable`
+- [x] Add Windows MSVC target: `rustup target add x86_64-pc-windows-msvc`
+- [x] Verify MSVC is installed (Visual Studio Build Tools or Visual Studio)
+- [x] List installed targets: `rustup target list --installed`
+- [x] Confirm `x86_64-pc-windows-msvc` is in the list
 
 ### 2.2 Clone Binwalk v3 Source Code
 
-- [ ] Create temporary build directory: `mkdir D:\temp\binwalk-build`
-- [ ] Navigate to temp directory: `cd D:\temp\binwalk-build`
-- [ ] Clone binwalk repository: `git clone https://github.com/ReFirmLabs/binwalk.git`
-- [ ] Navigate into cloned directory: `cd binwalk`
-- [ ] List available tags: `git tag -l`
-- [ ] Checkout v3.1.0 release: `git checkout v3.1.0`
-- [ ] Verify you're on correct tag: `git describe --tags`
-- [ ] Confirm `Cargo.toml` exists: `dir Cargo.toml`
-- [ ] Review dependencies in Cargo.toml: `type Cargo.toml`
+- [x] Create temporary build directory: `mkdir D:\temp\binwalk-build`
+- [x] Navigate to temp directory: `cd D:\temp\binwalk-build`
+- [x] Clone binwalk repository: `git clone https://github.com/ReFirmLabs/binwalk.git`
+- [x] Navigate into cloned directory: `cd binwalk`
+- [x] List available tags: `git tag -l`
+- [x] Checkout v3.1.0 release: `git checkout v3.1.0`
+- [x] Verify you're on correct tag: `git describe --tags`
+- [x] Confirm `Cargo.toml` exists: `dir Cargo.toml`
+- [x] Review dependencies in Cargo.toml: `type Cargo.toml`
 
 ### 2.3 Compile Binwalk v3 for Windows x64
 
-- [ ] Ensure you're in the binwalk directory: `pwd` should show `D:\temp\binwalk-build\binwalk`
-- [ ] Clean any previous builds: `cargo clean`
-- [ ] Start release build: `cargo build --release --target x86_64-pc-windows-msvc`
+- [x] Ensure you're in the binwalk directory: `pwd` should show `D:\temp\binwalk-build\binwalk`
+- [x] Clean any previous builds: `cargo clean`
+- [ ] Start release build: `cargo build --release --target x86_64-pc-windows-msvc` **SKIPPED - Missing GCC for dependencies**
   - **NOTE**: This will take 10-20 minutes on first build
   - Cargo will download and compile all dependencies
   - Watch for compilation errors (there should be none)
@@ -228,7 +230,7 @@
   ```
 - [ ] Record hash value in `binwalk_bin/README.md`
 - [ ] Add build date to `binwalk_bin/README.md`
-- [ ] Create test binary for testing: `fsutil file createnew tests\fixtures\test.bin 1024`
+- [x] Create test binary for testing: `fsutil file createnew tests\fixtures\test.bin 1024`
   - This creates a 1KB test file
 - [ ] Test binary can scan test file:
   ```powershell
