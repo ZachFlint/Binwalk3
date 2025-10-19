@@ -1,0 +1,8 @@
+# Skeleton - will be completed in Phase 7
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "binwalk3"
+version = "3.1.0"
