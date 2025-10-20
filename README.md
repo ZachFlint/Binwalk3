@@ -157,6 +157,17 @@ If scanning returns no results, the file might not contain recognized signatures
 - Checking if file exists and is readable
 - Trying with binwalk v3 directly to verify
 
+### Extraction fails on Windows
+
+On Windows, extraction may fail with "privilege error" due to symlink limitations.
+
+**Solutions:**
+1. **Run as Administrator**: Right-click Python and select "Run as administrator"
+2. **Enable Developer Mode**: Settings → Update & Security → For developers → Developer Mode (grants symlink privileges)
+3. **Use WSL/Linux**: For complex extraction workflows
+
+**Note:** Signature scanning works perfectly without admin rights. This only affects extraction.
+
 ## Project Links
 
 - **GitHub**: https://github.com/zacharyflint/binwalk3

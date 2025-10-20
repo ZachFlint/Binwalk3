@@ -12,8 +12,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     package_data={
-        "": ["binwalk_bin/*.exe"],
         "binwalk": ["py.typed"],
+        "binwalk.binwalk_bin": ["*.exe", "*.md"],
     },
     include_package_data=True,
 )

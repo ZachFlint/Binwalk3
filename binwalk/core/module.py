@@ -6,7 +6,7 @@ the faster binwalk v3 backend under the hood.
 
 from typing import Any, Optional
 
-from .._v3_backend import V3ScanResult, get_backend
+from .._v3_backend import get_backend
 
 
 class Result:
@@ -22,6 +22,7 @@ class Result:
         size: Optional[int] = None,
         entropy: Optional[float] = None,
         file: Optional[str] = None,
+        module: Optional[str] = None,
     ):
         """Initialize a Result.
 
@@ -31,12 +32,14 @@ class Result:
             size: Size of the identified data (if known)
             entropy: Entropy value (if calculated)
             file: File path this result came from
+            module: Module type that detected this result
         """
         self.offset = offset
         self.description = description
         self.size = size
         self.entropy = entropy
         self.file = file
+        self.module = module
 
     def __repr__(self) -> str:
         """Return string representation of Result."""
@@ -152,6 +155,7 @@ class Modules:
                         size=v3_result.size,
                         entropy=v3_result.entropy,
                         file=v3_result.file,
+                        module=v3_result.module,
                     )
                     module.results.append(result)
 

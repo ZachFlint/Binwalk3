@@ -5,7 +5,6 @@ exposing it through a Python interface compatible with binwalk v2.
 """
 
 import json
-import os
 import platform
 import shutil
 import subprocess
@@ -75,7 +74,7 @@ class BinwalkV3Backend:
             Path to binary or default name
         """
         # Check for bundled binary
-        package_dir = Path(__file__).parent.parent
+        package_dir = Path(__file__).parent
         binary_dir = package_dir / "binwalk_bin"
 
         # Platform-specific binary names
@@ -310,40 +309,58 @@ class BinwalkV3Backend:
             with open(json_path, "r") as f:
                 data = json.load(f)
 
-            # Parse signature results
-            if "signatures" in data:
-                for item in data["signatures"]:
+            # Binwalk v3 actual format: [{"Analysis": {"file_map": [...]}}]
+            if isinstance(data, list) and len(data) > 0:
+                analysis = data[0].get("Analysis", {})
+
+                # Parse file_map (signature results)
+                file_map = analysis.get("file_map", [])
+                for item in file_map:
                     result = V3ScanResult(
                         offset=item.get("offset", 0),
                         description=item.get("description", ""),
                         size=item.get("size"),
                         file=file_path,
-                        module="signature",
-                    )
-                    module_result.results.append(result)
-            elif "results" in data:
-                # Alternative format
-                for item in data["results"]:
-                    result = V3ScanResult(
-                        offset=item.get("offset", 0),
-                        description=item.get("description", ""),
-                        size=item.get("size"),
-                        file=file_path,
-                        module="signature",
+                        module=item.get("name", "signature"),
                     )
                     module_result.results.append(result)
 
-            # Parse entropy results
-            if "entropy" in data:
-                for item in data["entropy"]:
-                    result = V3ScanResult(
-                        offset=item.get("offset", 0),
-                        description=f"Entropy: {item.get('entropy', 0):.2f}",
-                        entropy=item.get("entropy"),
-                        file=file_path,
-                        module="entropy",
-                    )
-                    module_result.results.append(result)
+            # Fallback: Old format for compatibility
+            elif isinstance(data, dict):
+                # Parse signature results
+                if "signatures" in data:
+                    for item in data["signatures"]:
+                        result = V3ScanResult(
+                            offset=item.get("offset", 0),
+                            description=item.get("description", ""),
+                            size=item.get("size"),
+                            file=file_path,
+                            module="signature",
+                        )
+                        module_result.results.append(result)
+                elif "results" in data:
+                    # Alternative format
+                    for item in data["results"]:
+                        result = V3ScanResult(
+                            offset=item.get("offset", 0),
+                            description=item.get("description", ""),
+                            size=item.get("size"),
+                            file=file_path,
+                            module="signature",
+                        )
+                        module_result.results.append(result)
+
+                # Parse entropy results
+                if "entropy" in data:
+                    for item in data["entropy"]:
+                        result = V3ScanResult(
+                            offset=item.get("offset", 0),
+                            description=f"Entropy: {item.get('entropy', 0):.2f}",
+                            entropy=item.get("entropy"),
+                            file=file_path,
+                            module="entropy",
+                        )
+                        module_result.results.append(result)
 
         except (json.JSONDecodeError, FileNotFoundError) as e:
             module_result.errors.append(f"Failed to parse results: {str(e)}")

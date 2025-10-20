@@ -74,6 +74,7 @@ __all__ = [
     "Module",
     "Result",
     "ModuleException",
+    "get_backend",
     "__version__",
     "__api_version__",
     "__binwalk_core_version__",

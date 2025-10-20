@@ -5,6 +5,18 @@ All notable changes to binwalk3 will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2025-10-19
+
+### Fixed
+- **Critical**: JSON parsing now correctly handles binwalk v3 output format `[{"Analysis": {"file_map": [...]}}]`
+- Fixed signature detection returning empty results in initial release
+- All signature types now detected correctly (ZIP, JAR, MSI, PE, CAB, PNG, etc.)
+
+### Documentation
+- Added Windows extraction limitation note in README
+- Added troubleshooting section for extraction privilege errors
+- Comprehensive validation on real system binaries
+
 ## [3.1.0] - 2025-01-19
 
 ### Added
@@ -22,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Import**: Use `import binwalk` just like v2
 - **Classes**: Full support for `Modules`, `Module`, `Result` classes
 - **Functions**: Complete `scan()` function with all v2 parameters
+
+### Fixed
+- **Critical**: JSON parsing now correctly handles binwalk v3 output format `[{"Analysis": {"file_map": [...]}}]`
+- Fixed signature detection returning empty results in initial release
 
 ### Technical
 - Python 3.8+ support with modern type hints
