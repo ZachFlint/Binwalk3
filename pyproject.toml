@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "binwalk3"
+version = "3.1.3"
+description = "Binwalk v3 with v2-compatible Python API - Fast firmware analysis"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "Zachary Flint", email = "zach.flint2@gmail.com"}
+]
+keywords = [
+    "binwalk",
+    "firmware",
+    "analysis",
+    "reverse-engineering",
+    "security",
+    "binary-analysis",
+    "embedded",
+    "iot"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Topic :: Security",
+    "Topic :: Software Development :: Disassemblers",
+    "Topic :: System :: Filesystems",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Homepage = "https://github.com/zacharyflint/binwalk3"
+Repository = "https://github.com/zacharyflint/binwalk3"
+Issues = "https://github.com/zacharyflint/binwalk3/issues"
+Documentation = "https://github.com/zacharyflint/binwalk3/blob/main/README.md"
+Changelog = "https://github.com/zacharyflint/binwalk3/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+packages = ["binwalk", "binwalk.core", "binwalk.binwalk_bin"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+binwalk = ["py.typed"]
+"binwalk.binwalk_bin" = ["*.exe", "*.md"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-v", "--tb=short"]

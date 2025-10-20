@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+recursive-include docs *.md
+recursive-include binwalk/binwalk_bin *.exe *.md
+include binwalk/py.typed
+exclude tests
+recursive-exclude tests *
+recursive-exclude .github *
