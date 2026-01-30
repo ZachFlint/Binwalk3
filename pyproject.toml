@@ -42,11 +42,11 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/zacharyflint/binwalk3"
-Repository = "https://github.com/zacharyflint/binwalk3"
-Issues = "https://github.com/zacharyflint/binwalk3/issues"
-Documentation = "https://github.com/zacharyflint/binwalk3/blob/main/README.md"
-Changelog = "https://github.com/zacharyflint/binwalk3/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/ZachFlint/Binwalk3"
+Repository = "https://github.com/ZachFlint/Binwalk3"
+Issues = "https://github.com/ZachFlint/Binwalk3/issues"
+Documentation = "https://github.com/ZachFlint/Binwalk3/blob/main/README.md"
+Changelog = "https://github.com/ZachFlint/Binwalk3/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
 packages = ["binwalk", "binwalk.core", "binwalk.binwalk_bin"]
