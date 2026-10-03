@@ -1,0 +1,3 @@
+[submodule "vendor/binwalk"]
+	path = vendor/binwalk
+	url = https://github.com/ReFirmLabs/binwalk

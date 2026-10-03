@@ -1,51 +1,32 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
+.eggs/
 
-# Virtual environments
-venv/
-ENV/
-env/
+# Virtual environments and tool caches
 .venv/
-
-# Testing
+venv/
 .pytest_cache/
+.ruff_cache/
 .coverage
 htmlcov/
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
 
-# Build artifacts
-*.whl
-*.tar.gz
+# Build outputs: produced by scripts/build_binary.ps1
+binwalk/binwalk_bin/*.exe
+binwalk/binwalk_bin/manifest.json
 
-# Temporary files
-*.tmp
-*.log
+# Files written by scans run from the repository root
+extractions/
+*.png
+!tests/fixtures/*.png
+
+# OS files
 .DS_Store
 Thumbs.db
-
-# Don't ignore the binaries we want to include
-!binwalk_bin/*.exe
