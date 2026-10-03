@@ -104,10 +104,12 @@ def test_v2_executable_is_rejected(tmp_path: Path) -> None:
 
 
 def test_file_that_is_not_a_program_is_rejected(tmp_path: Path) -> None:
-    garbage = tmp_path / ("binwalk.exe" if os.name == "nt" else "binwalk")
-    garbage.write_bytes(b"this is not an executable image")
-    garbage.chmod(0o755)
-    assert probe_binary(garbage) is None
+    empty = tmp_path / ("binwalk.exe" if os.name == "nt" else "binwalk")
+    empty.write_bytes(b"")
+    empty.chmod(0o755)
+    with pytest.raises(OSError, match=r"193|Exec format error"):
+        subprocess.run([str(empty), "--version"], capture_output=True, check=False)
+    assert probe_binary(empty) is None
     assert probe_binary(tmp_path / "missing-binwalk") is None
 
 
