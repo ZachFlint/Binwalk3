@@ -27,6 +27,9 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
+      - name: Check out binwalk 3.1.0 for legacy tests
+        run: git -C vendor/binwalk worktree add ../../build/binwalk-3.1.0 v3.1.0
+
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
@@ -44,8 +47,8 @@ jobs:
       - name: Build binwalk 3.1.0 for legacy tests
         shell: pwsh
         run: |
-          git -C vendor/binwalk worktree add ../../build/binwalk-3.1.0 v3.1.0
           cargo build --release --manifest-path build/binwalk-3.1.0/Cargo.toml
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           "BINWALK3_LEGACY_BINARY=$PWD/build/binwalk-3.1.0/target/release/binwalk.exe" >> $env:GITHUB_ENV
 
       - name: Install
