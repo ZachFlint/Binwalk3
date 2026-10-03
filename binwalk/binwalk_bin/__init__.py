@@ -1,1 +1,1 @@
-"""Binwalk v3 binary distribution."""
+"""Bundled binwalk v3 executable and its build manifest."""

@@ -1,10 +1,25 @@
-"""Binwalk core module compatibility layer.
+"""binwalk v2 compatible core classes."""
 
-This module provides the v2-compatible interface for binwalk,
-exposing the same classes and functions that users expect from
-binwalk v2, while using the faster v3 backend internally.
-"""
+from __future__ import annotations
 
-from .module import Module, ModuleException, Modules, Result
+from binwalk.core.exceptions import ModuleException
+from binwalk.core.module import (
+    ExtractDetails,
+    ExtractInfo,
+    Extractor,
+    FilePath,
+    Module,
+    Modules,
+    Result,
+)
 
-__all__ = ["Modules", "Module", "Result", "ModuleException"]
+__all__ = [
+    "ExtractDetails",
+    "ExtractInfo",
+    "Extractor",
+    "FilePath",
+    "Module",
+    "ModuleException",
+    "Modules",
+    "Result",
+]

@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+
+      - name: Build bundled binwalk
+        shell: pwsh
+        run: ./scripts/build_binary.ps1
+
+      - name: Test
+        run: |
+          uv sync --group dev
+          uv run pytest
+
+      - name: Build distributions
+        shell: pwsh
+        run: |
+          uv build --sdist --out-dir dist
+          uv build --wheel --out-dir dist
+          $env:BINWALK3_PURE_WHEEL = "1"
+          uv build --wheel --out-dir dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1

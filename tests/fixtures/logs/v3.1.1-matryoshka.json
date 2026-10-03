@@ -1,0 +1,35 @@
+[
+{
+  "Analysis": {
+    "file_path": "D:\\Binwalk3\\build\\probe2\\out\\nested.bin",
+    "file_map": [
+      {
+        "offset": 130,
+        "id": "3d9d3679-1b48-43d2-be5e-e83b3a7d7f69",
+        "size": 126,
+        "name": "zip",
+        "confidence": 250,
+        "description": "ZIP archive, version: 2.0, file count: 1, total size: 126 bytes",
+        "always_display": false,
+        "extraction_declined": false
+      }
+    ],
+    "extractions": {
+      "3d9d3679-1b48-43d2-be5e-e83b3a7d7f69": {
+        "size": null,
+        "success": true,
+        "extractor": "7z",
+        "do_not_recurse": false,
+        "output_directory": "D:\\Binwalk3\\build\\probe2\\out\\nested.bin.extracted\\82"
+      }
+    }
+  }
+},
+{
+  "Analysis": {
+    "file_path": "D:\\Binwalk3\\build\\probe2\\out\\nested.bin.extracted\\82\\test.txt",
+    "file_map": [],
+    "extractions": {}
+  }
+}
+]

@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows (Python ${{ matrix.python }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            vendor/binwalk -> ../../build/cargo-target
+            build/binwalk-3.1.0 -> target
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Build bundled binwalk
+        shell: pwsh
+        run: ./scripts/build_binary.ps1
+
+      - name: Build binwalk 3.1.0 for legacy tests
+        shell: pwsh
+        run: |
+          git -C vendor/binwalk worktree add ../../build/binwalk-3.1.0 v3.1.0
+          cargo build --release --manifest-path build/binwalk-3.1.0/Cargo.toml
+          "BINWALK3_LEGACY_BINARY=$PWD/build/binwalk-3.1.0/target/release/binwalk.exe" >> $env:GITHUB_ENV
+
+      - name: Install
+        run: uv sync --group dev
+
+      - name: Lint
+        if: matrix.python == '3.14'
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run basedpyright
+          uv run pydoclint binwalk
+          uv run pydocstyle binwalk
+
+      - name: Test
+        run: uv run pytest
+
+      - name: Build distributions
+        if: matrix.python == '3.14'
+        shell: pwsh
+        run: |
+          uv build --sdist --out-dir dist
+          uv build --wheel --out-dir dist
+          $env:BINWALK3_PURE_WHEEL = "1"
+          uv build --wheel --out-dir dist
+
+      - uses: actions/upload-artifact@v4
+        if: matrix.python == '3.14'
+        with:
+          name: dist
+          path: dist/
+
+  linux:
+    name: Linux, binwalk from PATH
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: vendor/binwalk -> ../../build/cargo-target
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+
+      - name: Build binwalk and put it on PATH
+        run: |
+          git -C vendor/binwalk apply ../../patches/0001-disable-kaleido-download.patch
+          CARGO_TARGET_DIR=build/cargo-target cargo build --release --locked --manifest-path vendor/binwalk/Cargo.toml
+          git -C vendor/binwalk apply -R ../../patches/0001-disable-kaleido-download.patch
+          mkdir -p build/bin
+          cp build/cargo-target/release/binwalk build/bin/binwalk
+          echo "$PWD/build/bin" >> "$GITHUB_PATH"
+
+      - name: Install
+        run: uv sync --group dev
+
+      - name: Test
+        run: uv run pytest

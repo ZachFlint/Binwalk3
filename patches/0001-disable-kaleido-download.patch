@@ -1,0 +1,13 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 8f42ce8..af34053 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -34,7 +34,7 @@ clap = { version = "4.5.16", features = ["derive"] }
+ xxhash-rust = { version = "0.8.12", features = ["xxh32"] }
+ hex = "0.4.3"
+ delink = { git = "https://github.com/devttys0/delink" }
+-plotly = { version = "0.13.1", features = ["kaleido", "kaleido_download"] }
++plotly = { version = "0.13.1", features = ["kaleido"] }
+ 
+ [dependencies.uuid]
+ version = "1.17.0"

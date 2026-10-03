@@ -1,0 +1,4 @@
+*.patch text eol=lf
+*.bin binary
+*.zip binary
+*.png binary
